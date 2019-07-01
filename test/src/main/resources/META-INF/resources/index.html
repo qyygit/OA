@@ -83,29 +83,29 @@
                 <!--个人事务 -->
                 <div class="tab-pane fade in active con_leftnav" id="myDeal">
                     <div class="panel-group" id="accordion">
-                        <div v-for="item in currentNavList" key="item" class="panel panel-default">
+                        <div v-for="item in currentNavList" key="item" class="panel panel-default" @click="leftNavItemClick(item)">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" 
-                                    href="#collapseOne" hidefocus="true">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                    :href="'#collapse' + item.appName" hidefocus="true">
                                         <img src="img/leftnavIcon1.png" alt="" class="topIcon">
-                                        {{item.app.appName}}
+                                        {{item.appName}}
                                         <!-- <img src="img/gtBottom.png" alt=""> -->
                                     </a>
                                 </h4>
                             </div>
-                            <!-- <div id="collapseOne" class="panel-collapse collapse in">
+                            <div v-if="item.subList != null" :id="'collapse' + item.appName" class="panel-collapse collapse">
                                 <div class="panel-body">
                                     <ul>
-                                        <li class="leftActive"><img src="img/gtsmall.png" alt="">我的待办</li>
+                                        <!-- <li class="leftActive"><img src="img/gtsmall.png" alt="">我的待办</li>
                                         <li><img src="img/gtsmall.png" alt="">我的待阅</li>
                                         <li><img src="img/gtsmall.png" alt="">我的关注</li>
                                         <li><img src="img/gtsmall.png" alt="">我的已办</li>
-                                        <li><img src="img/gtsmall.png" alt="">我的已阅</li>
-                                        <li><img src="img/gtsmall.png" alt="">我的办结</li>
+                                        <li><img src="img/gtsmall.png" alt="">我的已阅</li> -->
+                                        <li v-for="subItem in item.subList" @click="leftNavItemClick(subItem)"><img src="img/gtsmall.png" alt="">{{subItem.appName}}</li>
                                     </ul>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -118,107 +118,10 @@
                     您的位置:
                     <span class="location">个人事务</span>
                 </div>
-                <!-- 个人事务 -->
-                <div class="right_tab_con">
-                    <!-- 我的待办 -->
-                    <div class="con_right_tab">
-                        <div class="con_right_table">
-                            <ul class="ta
-                            ble_left_list">
-                                <li class="tableactive">我的待办</li>
-                                <li>个人日程</li>
-                                <li>公告</li>
-                            </ul>
-                            <div class="con_table_con tab_content">
-                                <!-- 我的待办 -->
-                                <div class="myHandle">
-                                    <table class="table" >
-                                        <thead>
-                                            <tr>
-                                                <th>标题</th>
-                                                <th>类型</th>
-                                                <th>来源</th>
-                                                <th>状态</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td title="123">
-                                                    <span class="">【考勤】</span>
-                                                    XXX2019-04-12日考勤异常申请
-                                                </td>
-                                                <td>忘打卡申请 </td>
-                                                <td>运营维护部办公自动化系统/运营维护部/机关</td>
-                                                <td>流程结束</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="">【考勤】</span>
-                                                    XXX2019-04-12日考勤异常申请
-                                                </td>
-                                                <td>忘打卡申请 </td>
-                                                <td>运营维护部办公自动化系统/运营维护部/机关</td>
-                                                <td>流程结束</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="">【考勤】</span>
-                                                    XXX2019-04-12日考勤异常申请
-                                                </td>
-                                                <td>忘打卡申请 </td>
-                                                <td>运营维护部办公自动化系统/运营维护部/机关</td>
-                                                <td>流程结束</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="">【考勤】</span>
-                                                    XXX2019-04-12日考勤异常申请
-                                                </td>
-                                                <td>忘打卡申请 </td>
-                                                <td>运营维护部办公自动化系统/运营维护部/机关</td>
-                                                <td>流程结束</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="" style="display:none">个人日程</div>
-                                <div class="" style="display:none">公告</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 我的待阅 -->
-                    <div class="con_right_tab">
-                        我的待阅
-                    </div>
-                    <!-- 我的关注 -->
-                    <div class="con_right_tab">
-                        我的关注
-                    </div>
-                </div>
-                <!-- 公文管理 -->
-                <div class="right_tab_con">
-                    公文管理
-                </div>
-                <!-- 法律管理 -->
-                <div class="right_tab_con">
-                    法律管理
-                </div>
-                <!-- 考勤管理 -->
-                <div class="right_tab_con">
-                    考勤管理
-                </div>
-                <!-- 公共信息 -->
-                <div class="right_tab_con">
-                    公共信息
-                </div>
-                <!-- IT业务审批 -->
-                <div class="right_tab_con">
-                    IT业务审批
-                </div>
                 <!-- 系统管理 -->
                 <div class="right_tab_con  xitongguanli">
                     <!-- 部门 -->
-                    <div class="system_con">
+                    <div class="system_con" id="bumenxinxiweihu">
                        <div class="system_title">部门信息维护</div>
                        <div class="system_table">
                             <div class="system_input input_padding">
@@ -282,7 +185,7 @@
                         </div>
                     </div>
                     <!-- 群组 -->
-                    <div class="system_con">
+                    <div class="system_con" id="qunzuxinxiweihu">
                         <div class="groups_con">
                             <div>部门群组列表</div>
                             <div class="groups_btn">
@@ -350,7 +253,7 @@
                         </div>
                     </div>
                     <!-- 部们管理 -->
-                    <div class="system_con">
+                    <div class="system_con" id="bumenguanli" data-initclick="initBumenguanliClick">
                         <div class="department_con">
                             <div class="de_left">
                                 <div class="department_top_left">
@@ -379,15 +282,15 @@
                                     <th>备注</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody v-for="item in unitList">
                                 <tr>
-                                    <td class="department_list_title">+神华集团</td>
-                                    <td>49170</td>
-                                    <td>aaaaaa</td>
+                                    <td class="department_list_title">+{{item.unitName}}</td>
+                                    <td>{{item.unitDeptcode}}</td>
+                                    <td>{{item.unitSitename}}</td>
                                     <td>董事会群组1、董事会群组2</td>
-                                    <td></td>
+                                    <td>{{item.unit_comment}}</td>
                                 </tr>
-                                <tr class="department_list_body">
+                                <!-- <tr class="department_list_body">
                                     <td class="department_list_title">董事会</td>
                                     <td>49170</td>
                                     <td>aaaaaa</td>
@@ -400,55 +303,101 @@
                                     <td>aaaaaa</td>
                                     <td>董事会群组1、董事会群组2</td>
                                     <td></td>                           
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td class="department_list_title">+神华集团</td>
-                                    <td>49170</td>
-                                    <td>aaaaaa</td>
-                                    <td>董事会群组1、董事会群组2</td>
-                                    <td></td>
-                                </tr>
-                                <tr class="department_list_body">
-                                    <td>秘书处</td>
-                                    <td>49170</td>
-                                    <td>aaaaaa</td>
-                                    <td>董事会群组1、董事会群组2</td>
-                                    <td></td>                           
-                                </tr>
-                                <tr class="department_list_body">
-                                    <td>监事会</td>
-                                    <td>49170</td>
-                                    <td>aaaaaa</td>
-                                    <td>董事会群组1、董事会群组2</td>
-                                    <td></td>                           
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td class="department_list_title">+神华集团</td>
-                                    <td>49170</td>
-                                    <td>aaaaaa</td>
-                                    <td>董事会群组1、董事会群组2</td>
-                                    <td></td>
-                                </tr>
-                                <tr class="department_list_body">
-                                    <td>秘书处</td>
-                                    <td>49170</td>
-                                    <td>aaaaaa</td>
-                                    <td>董事会群组1、董事会群组2</td>
-                                    <td></td>                           
-                                </tr>
-                                <tr class="department_list_body">
-                                    <td>监事会</td>
-                                    <td>49170</td>
-                                    <td>aaaaaa</td>
-                                    <td>董事会群组1、董事会群组2</td>
-                                    <td></td>                           
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
+                    </div>
+                    <!-- 用户信息 -->
+                    <div class="system_con"  id="userinfo" data-initclick="initUserClick">
+                        <div class="user_btn">
+                            <button class="sureBtn">修改</button>
+                            <button class="sureBtn">维护角色</button>
+                        </div>
+                        <div class="user_con" >
+                            <div class=" user_left"  :key="Math.random()">
+
+                                <div class="arrow" @click='arrow'><img src="img/arrow.png" alt="" >神华集团</div>
+                                <ul v-for="unlist in orgUnitList"  id="orgQueryList" :key="Math.random()">
+                                    <li v-if="unlist.countChildCount > 0" class="sel_title arrow">
+                                        <img :class="{'icon_transform': unlist.isXia === undefined || unlist.isXia===null || unlist.isXia === false}" src="img/arrow.png" alt="" @click="tranformSanjiao($event,unlist)" :key="Math.random()"><span  @click="findOrgUserBydeptcode(unlist.unitDeptcode,unlist.unitName)">{{unlist.unitName }}</span>
+                                        <ul class="menu2">
+                                            <li ></li>
+                                        </ul>
+                                    </li>
+                                    <li @click="findOrgUserBydeptcode(unlist.unitDeptcode,unlist.unitName)" class="sel_title" v-else>
+                                        {{unlist.unitName }}
+                                        <ul class="menu2">
+                                            <li ></li>
+                                        </ul>
+                                    </li>
+
+                                   <!-- <li>{{unlist.unitDeptcode}}</li>-->
+                                    <!--<li class="arrow">办事处</li>-->
+                                    <!--<ul class="sel_title1">-->
+                                        <!--<li>综合管理处</li>-->
+                                        <!--<li>秘书处</li>-->
+                                    <!--</ul>-->
+                                    </ul>
+                            </div>
+                            <div class='user_right'>
+                                <div>
+                                    <table class="user_table">
+                                        <thead>
+                                            <tr>
+                                                <th>用户全称</th>
+                                                <th>用户ID</th>
+                                                <th>职务</th>
+                                                <th>所属部门</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="UserList in orgUserList" key="UserList.userId">
+                                                <td>{{UserList.userName}}</td>
+                                                <td>{{UserList.userId}}</td>
+                                                <td>{{UserList.userJobtitle}}</td>
+                                                <td>{{onclickUnitName}}</td>
+                                            </tr>
+                                            <!--<tr >
+                                                <td>xxx</td>
+                                                <td>1111111</td>
+                                                <td>执行董事</td>
+                                                <td>董事会/集团总部</td>
+                                            </tr>-->
+                             <!--               <tr>
+                                                <td>xxx</td>
+                                                <td>1111111</td>
+                                                <td>执行董事</td>
+                                                <td>董事会/集团总部</td>
+                                            </tr>
+                                            <tr>
+                                                <td>xxx</td>
+                                                <td>1111111</td>
+                                                <td>执行董事</td>
+                                                <td>董事会/集团总部</td>
+                                            </tr>-->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- 页码   -->
+                                <div class="myPage">
+                                    <div>
+                                        <span>共15条/每页12条</span>
+                                        <span class="myPage_margin">第1/2页</span>
+                                        <img src="img/left1.png" alt="">
+                                        <img src="img/left2.png" alt="">
+                                        <span>01</span>
+                                        <span>02</span>
+                                        <img src="img/right1.png" alt="">
+                                        <img src="img/right2.png" alt="">
+                                        <span>
+                                            跳转至
+                                            <input type="text" class="page_input">
+                                            页
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>                  

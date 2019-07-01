@@ -14,6 +14,7 @@ public class OrgUnit  implements IBaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "unit_id")
+    @OrderBy("desc")
     private Integer unitId;
 
     /**

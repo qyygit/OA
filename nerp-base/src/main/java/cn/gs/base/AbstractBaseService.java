@@ -93,8 +93,7 @@ public abstract class AbstractBaseService<T extends IBaseEntity> extends Abstrac
 		return list;
 	}
 	public PageInfo<T> getListAll(T entity,int pageNum,int pageSize) {
-		PageHelper.startPage(pageNum,pageSize);
-		List<T>  list = getRepository().select(entity);
+ 		List<T>  list = getRepository().select(entity);
 		 PageInfo<T> pageInfo = new PageInfo<>(list);
 		return pageInfo;
 	}

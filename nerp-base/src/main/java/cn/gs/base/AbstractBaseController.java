@@ -45,11 +45,11 @@ public abstract class AbstractBaseController<T extends IBaseEntity>  extends Abs
 	 */
 	@GetMapping("{id}")
 	public ResponseEntity<JsonResult> get(@PathVariable String id) {
-		return entityResult(getService().get(id));
+		return entityResult(getService().get(Integer.valueOf(id)));
 	}
 	
 	/**
-	 * 创建实体
+	 * 创建实体么多
 	 */
 	@PostMapping
     public ResponseEntity<JsonResult> create(T entity) {

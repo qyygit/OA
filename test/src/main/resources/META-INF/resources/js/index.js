@@ -1,15 +1,21 @@
 window.onload=function(){
-} 
 
+}
 new Vue({
      el:"#main",
      data:{
     	 userInfo: null,
     	 topNavList: null,
     	 currentNavList: null,
-    	 moved:0
+    	 moved:0,
+    	 unitList: null,
+         orgUnitList:null,
+         orgUserList:null,
+         onclickUnitName:null
+
      },
      created() {
+         // this.arrow();
     	 on();
     	 nav();
     	    myHandle();
@@ -18,80 +24,173 @@ new Vue({
     	    navRight();
     	    selectPer();
         this.getUserInfo();
-       
+        	this.initCass();
+          // this.findOrgUserBydeptcode();
        },
+   /* updated()
+    {
+        // orgQueryListImg();
+    },*/
      methods: {
-    	getUserInfo (){
-    			axios.get('system/user/info?empnumber=fwadmin')
-    			  .then((response) => {
-    				  var systemInfo = response.data.data;
-    				  this.userInfo = systemInfo;
-    				  if ( this.userInfo !== null){
-    					  this.topNavList =  this.userInfo.navList;
-    					  for (var key in this.userInfo.navList){
-    						  this.currentNavList = this.topNavList[key];
-    						  break;
-    					  }
-    				  } 
-    				  $(".nav_left_click").addClass("disabled");
-    				  if(this.moved>=navLi.length-7){
-                          $(".nav_right_click").addClass("disabled");
-    				  }
-    			      console.log(systemInfo);
-    			  })
-    			  .catch((error) => {
-    			      console.log(error);
-    			  });
-    		},
-    		showSelectUser(){
-    			 $('.model_bg').show();
-    		},
-    		closeSelectUser(){
-    			$('.model_bg').hide();
-    		},
-    		navItemClick(key){
-    			 this.currentNavList = this.topNavList[key];
-    		},
-    		navRightClick(e){
-    			let navLi=$('.nav_list>li');
-    			if(!$(".nav_right_click").is(".disabled")){
-                    this.moved++;
-                    $('.nav_list').css("margin-left",-106*this.moved);
-                    $('.nav_left_click').removeClass("disabled");
-                    if(this.moved==navLi.length-7){
-                            $(".nav_right_click").addClass("disabled");
-                    }
-                }
-    		},
-    		navLeftClick(e){
-    			let navLi=$('.nav_list>li');
-    			 if(!$(".nav_left_click").is(".disabled")){
-    	                this.moved--;
-    	                $('.nav_list').css("margin-left",-106*this.moved);
-    	                $('.nav_right_click').removeClass("disabled");
-    	                if(this.moved==0){
-    	                    $(".nav_left_click").addClass("disabled");
-    	                }
-    	            }
-    		}
+
+         arrow(){
+             // debugger;
+              this.target;
+             $('.arrow').find('img').toggleClass('icon_transform');
+             $('.sel_title').slideToggle();
+             // $('.nav_con').not($(this).next()).hide();
+
+         },
+
+
+
+
+initCass() {
+             var height = $(document).height();
+             // console.log($('.con').offset())
+             var sTop = $('.con').offset().top;//169
+             var h = height - sTop;
+             $(window).resize(function () {
+                 location.reload()
+             });
+             $('.con_leftnav').height(h);
+             var lheight = $('.tab_content').height();
+             $('.con_right').height(lheight - 20);
+         },
+         getUserInfo() {
+             axios.get('system/user/info?empnumber=00100001')
+                 .then((response) => {
+                 var systemInfo = response.data.data;
+             this.userInfo = systemInfo;
+             if (this.userInfo !== null) {
+                 this.topNavList = this.userInfo.navList;
+                 for (var key in this.userInfo.navList) {
+                     this.currentNavList = this.topNavList[key];
+                     break;
+                 }
+             }
+             $(".nav_left_click").addClass("disabled");
+             if (this.moved >= this.topNavList.length - 7) {
+                 $(".nav_right_click").addClass("disabled");
+             }
+             console.log(systemInfo);
+         })
+         .
+             catch((error) => {
+                 console.log(error);
+         })
+             ;
+         },
+         leftNavItemClick(item) {
+             if (item.subList == null) {
+                 if (item.appPath != null && $('#' + item.appPath) != null) {
+                     $(".right_tab_con .system_con").hide();
+                     $('#' + item.appPath).show();
+                     this[$('#' + item.appPath).data("initclick")]();
+                 }
+                 console.log(item.appName);
+             }
+         },
+         initBumenguanliClick() {
+             console.log("初始化部门管理");
+             axios.get('system/unit/all?unitParentcode=1')
+                 .then((response) => {
+                 this.unitList = response.data.data;
+             console.log(systemInfo);
+         })
+         .
+             catch((error) => {
+                 console.log(error);
+         })
+             ;
+         },
+         showSelectUser() {
+             $('.model_bg').show();
+         },
+         closeSelectUser() {
+             $('.model_bg').hide();
+         },
+         navItemClick(key) {
+             this.currentNavList = this.topNavList[key];
+         },
+         navRightClick(e) {
+             let navLi = $('.nav_list>li');
+             if (!$(".nav_right_click").is(".disabled")) {
+                 this.moved++;
+                 $('.nav_list').css("margin-left", -106 * this.moved);
+                 $('.nav_left_click').removeClass("disabled");
+                 if (this.moved == navLi.length - 7) {
+                     $(".nav_right_click").addClass("disabled");
+                 }
+             }
+         },
+         navLeftClick(e) {
+             let navLi = $('.nav_list>li');
+             if (!$(".nav_left_click").is(".disabled")) {
+                 this.moved--;
+                 $('.nav_list').css("margin-left", -106 * this.moved);
+                 $('.nav_right_click').removeClass("disabled");
+                 if (this.moved == 0) {
+                     $(".nav_left_click").addClass("disabled");
+                 }
+             }
+         },
+
+
+         // 查询全部二级公司
+         initUserClick() {
+             alert("user 初始化")
+             axios.get('system/unit/findbyunitpropertylevel2?unitpropertylevel=2')
+                 .then((response) => {
+                 this.orgUnitList = response.data;
+         })
+             ;
+         },
+
+         // 查询分公司下的员工信息
+         findOrgUserBydeptcode(unitdeptcode,unitName,e) {
+             alert(unitName);
+             this.onclickUnitName = unitName || "";
+             this.orgUserList = null;
+             axios.get('system/byuserdeptcode?userdeptcode=' + unitdeptcode)
+                 .then((response) => {
+                 this.orgUserList = response.data.data;
+                }).catch(function (error) {
+                 alert("查询" + unit + "失败！");
+                 console.log(error);
+             });
+         },
+         tranformSanjiao(e,list){
+             console.log(e,list);
+             if (list.isXia === undefined || list.isXia === null || !list.isXia){
+                 list.isXia = true;
+                 e.target.setAttribute("class","icon_transform");
+             }
+
+             else{
+                 list.isXia = !list.isXia;
+                 e.target.setAttribute("class","");
+             }
+            // e.target.transform = 'rotate(180deg)';
+        }
+         // 最大括弧
      }
  })
-
-
 // 时间
 function on() {
+    var date1 =new Date;
     var date1 =new Date;
     var  year=date1.getFullYear();
     var  month=date1.getMonth();
     var day=date1.getDate()
-    var xinqi=date1.getDay();    
+    var xinqi=date1.getDay();
     var weekday=["日","一","二","三","四","五","六"];
     var time=year+"-"+(month+1)+"-"+day+"   星期"+weekday[xinqi]+"  ";
     document.getElementById("myTime").innerHTML = time;
 }
 //导航
 function nav(){
-    var moved=0;     
+    var moved=0;
     var navLi=$('.nav_list>li');
     $('.nav_left_click').click(function(){
         if(!$(this).is(".disabled")){
@@ -102,8 +201,8 @@ function nav(){
                 $(this).addClass("disabled");
             }
         }
-    }); 
-    $('.nav_right_click').click(function(){ 
+    });
+    $('.nav_right_click').click(function(){
         if(!$(this).is(".disabled")){
             moved++;
             $('.nav_list').css("margin-left",-106*moved);
@@ -159,6 +258,22 @@ function leftNavtab(){
         $(".system_con").hide().eq(index).show();
     })
 }
+/*function orgQueryListImg(){
+        var imgUl = document.getElementById("orgQueryList").childNodes;
+        for(var i = 0;i<imgUl.length;i++){
+            debugger;
+            var li = imgUl[i].childNodes;
+            for(var j = 0;j<li.length;j++){
+                if(imgUl[i].childNodes[j].nodeName == "IMG"){
+                    imgUl[i].childNodes[j].onclick = tranform(imgUl[i].childNodes[j]);
+                };
+            }
+        }
+}*/
+/*function tranform(e){
+        debugger;
+    e.target.transform = 'rotate(180deg)';
+}*/
 // 选择人员
 function selectPer(){
     $('.select_person').click(function(){
@@ -169,11 +284,12 @@ function selectPer(){
         $('.model_bg').hide();
     })
     // 选择人员折叠
-    $('.arrow').click(function(){
+  /*  $('.arrow').click(function(){
+        alert(1111);
         $(this).find('img').toggleClass('icon_transform')
         $(this).next().slideToggle();
         $('.nav_con').not($(this).next()).hide();
-    })
+    })*/
     // 部门管理折叠
     $('.department_list_title').click(function(){
         $(this).parent().siblings().slideToggle();
@@ -185,9 +301,15 @@ function selectPer(){
 //     $('.model_bg').css('display','none');
 // })
 
-// sTop = $('.con').offset().top;//169
-// aTop=$(document).height;
-// console.log(aTop);
-// $('.con_leftnav').height(aTop-sTop);
+// height=$(window).height();
+// console.log(height)
+// sTop = $('.con_right').offset().top;//169
+// var h=height-sTop;
+// $(window).resize(function(){
+//     location.reload()
+// });
+// $('.con_leftnav').height(h);
+// var lheight=$('.tab_content').height();
+// $('.con_right').height(lheight-20);
 
 
