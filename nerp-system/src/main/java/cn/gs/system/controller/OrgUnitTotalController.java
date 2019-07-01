@@ -36,5 +36,10 @@ public class OrgUnitTotalController{
 		orgUnit.setUnitPropertylevel(unitpropertylevel);*/
 		return  orgUnitTotalService.finaAllUnit(unitpropertylevel);
 	}
-
+	@RequestMapping("findbyunitparentcode3")
+	public Object findByUnitParentcode(Integer integer,String unitparentcode){
+		/*OrgUnit orgUnit = new OrgUnit();
+		orgUnit.setUnitPropertylevel(unitpropertylevel);*/
+		return  orgUnitTotalService.finaUnit(integer , unitparentcode);
+	}
 }

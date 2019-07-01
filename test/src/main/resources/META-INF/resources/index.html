@@ -318,16 +318,54 @@
 
                                 <div class="arrow" @click='arrow'><img src="img/arrow.png" alt="" >神华集团</div>
                                 <ul v-for="unlist in orgUnitList"  id="orgQueryList" :key="Math.random()">
+                                    <!--二级公司展示-->
                                     <li v-if="unlist.countChildCount > 0" class="sel_title arrow">
-                                        <img :class="{'icon_transform': unlist.isXia === undefined || unlist.isXia===null || unlist.isXia === false}" src="img/arrow.png" alt="" @click="tranformSanjiao($event,unlist)" :key="Math.random()"><span  @click="findOrgUserBydeptcode(unlist.unitDeptcode,unlist.unitName)">{{unlist.unitName }}</span>
-                                        <ul class="menu2">
-                                            <li ></li>
+                                        <img :class="{'icon_transform': unlist.isXia === undefined || unlist.isXia===null || unlist.isXia === false}"
+                                             src="img/arrow.png" alt="" @click="tranformSanjiao($event,unlist,unlist.unitDeptcode)" :key="Math.random()">
+                                        <span  @click="findOrgUserBydeptcode(unlist.unitDeptcode,unlist.unitName)">{{unlist.unitName }}</span>
+
+                                        <ul class="menu2"  v-for="unlistThree in orgUnitThreeList"  id="orgQueryList" :key="Math.random()" v-if="unlist.unitDeptcode == checkedOrgNum">
+                                            <li v-if="unlistThree.countChildCount > 0" class="sel_title arrow">
+                                                <img :class="{'icon_transform': unlistThree.isXia === undefined || unlistThree.isXia===null || unlistThree.isXia === false}"
+                                                     src="img/arrow.png" alt="" @click="tranformSanjiao($event,unlistThree,unlistThree.unitDeptcode)" :key="Math.random()">
+                                                <span  @click="findOrgUserBydeptcode(unlistThree.unitDeptcode,unlistThree.unitName)">{{unlistThree.unitName }}</span>
+
+                                                <ul class="menu2">
+                                                    <li ></li>
+                                                </ul>
+                                            </li>
+
+                                            <!--三级公司展示-->
+                                            <li @click="findOrgUserBydeptcode(unlistThree.unitDeptcode,unlistThree.unitName)" class="sel_title" v-else>
+                                                {{unlistThree.unitName }}
+                                                <ul class="menu2">
+                                                    <li ></li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
+
+                                    <!--三级公司展示-->
                                     <li @click="findOrgUserBydeptcode(unlist.unitDeptcode,unlist.unitName)" class="sel_title" v-else>
                                         {{unlist.unitName }}
-                                        <ul class="menu2">
-                                            <li ></li>
+                                        <ul class="menu2"   v-for="unlistThree in orgUnitThreeList"  id="orgQueryList" :key="Math.random()" v-if="unlist.unitDeptcode == checkedOrgNum">
+                                            <li v-if="unlistThree.countChildCount > 0" class="sel_title arrow">
+                                                <img :class="{'icon_transform': unlistThree.isXia === undefined || unlistThree.isXia===null || unlistThree.isXia === false}"
+                                                     src="img/arrow.png" alt="" @click="tranformSanjiao($event,unlistThree,unlistThree.unitDeptcode)" :key="Math.random()">
+                                                <span  @click="findOrgUserBydeptcode(unlistThree.unitDeptcode,unlistThree.unitName)">{{unlistThree.unitName }}</span>
+
+                                                <ul class="menu2">
+                                                    <li ></li>
+                                                </ul>
+                                            </li>
+
+                                            <!--三级公司展示-->
+                                            <li @click="findOrgUserBydeptcode(unlistThree.unitDeptcode,unlistThree.unitName)" class="sel_title" v-else>
+                                                {{unlistThree.unitName }}
+                                                <ul class="menu2">
+                                                    <li ></li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
 

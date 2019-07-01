@@ -21,6 +21,11 @@ public class OrgUnitTotalService{
 
 	public List<OrgUnitTotal> finaAllUnit(Integer integer){
 		return orgUnitTotalMapper.findAllByropertylevel(integer);
+
+	}
+	public List<OrgUnitTotal> finaUnit(Integer integer ,String unitparentcode){
+		return orgUnitTotalMapper.findByropertylevel(integer ,unitparentcode);
+
 	}
 
 

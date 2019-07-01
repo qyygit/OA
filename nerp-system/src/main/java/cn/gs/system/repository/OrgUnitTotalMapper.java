@@ -22,5 +22,14 @@ public interface   OrgUnitTotalMapper{
             @Result(column = "unit_deptcode" , property ="unitDeptcode" )
     })
     List<OrgUnitTotal> findAllByropertylevel(Integer integer);
+    @Select("select  a.*,b.count_child_count as count_child_count from org_unit a LEFT JOIN (\n" +
+            "            select unit_parentcode,count(*) count_child_count from org_unit where unit_propertylevel = (#{integer}+1)  group by unit_parentcode)\n" +
+            "            b on b.unit_parentcode = a.unit_deptcode where a.unit_propertylevel = #{integer} and  a.unit_parentcode = #{unitparentcode}")
+    @Results({
+            @Result(id =true , column = "unit_name" , property ="unitName" ),
+            @Result(column = "count_child_count" , property ="countChildCount" ),
+            @Result(column = "unit_deptcode" , property ="unitDeptcode" )
+    })
+    List<OrgUnitTotal> findByropertylevel(Integer integer,String unitparentcode);
 
 }

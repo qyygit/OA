@@ -9,7 +9,9 @@ new Vue({
     	 currentNavList: null,
     	 moved:0,
     	 unitList: null,
+         checkedOrgNum:null,
          orgUnitList:null,
+         orgUnitThreeList:null,
          orgUserList:null,
          onclickUnitName:null
 
@@ -86,6 +88,7 @@ initCass() {
                  if (item.appPath != null && $('#' + item.appPath) != null) {
                      $(".right_tab_con .system_con").hide();
                      $('#' + item.appPath).show();
+
                      this[$('#' + item.appPath).data("initclick")]();
                  }
                  console.log(item.appName);
@@ -160,17 +163,24 @@ initCass() {
                  console.log(error);
              });
          },
-         tranformSanjiao(e,list){
+         tranformSanjiao(e,list,num){
              console.log(e,list);
              if (list.isXia === undefined || list.isXia === null || !list.isXia){
                  list.isXia = true;
-                 e.target.setAttribute("class","icon_transform");
+                 e.target.setAttribute("class","");
              }
 
              else{
                  list.isXia = !list.isXia;
-                 e.target.setAttribute("class","");
+                 e.target.setAttribute("class","icon_transform");
              }
+
+            // 查询三级公司
+             axios.get('system/unit/findbyunitparentcode3?unitparentcode='+ num + "&integer=3")
+                 .then((response) => {
+                 this.checkedOrgNum = num;
+                 this.orgUnitThreeList = response.data;
+           })
             // e.target.transform = 'rotate(180deg)';
         }
          // 最大括弧
