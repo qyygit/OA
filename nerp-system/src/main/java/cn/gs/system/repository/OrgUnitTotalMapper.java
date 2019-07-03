@@ -18,6 +18,7 @@ public interface   OrgUnitTotalMapper{
             "b on b.unit_parentcode = a.unit_deptcode where a.unit_propertylevel = #{integer}")
     @Results({
             @Result(id =true , column = "unit_name" , property ="unitName" ),
+            @Result(column = "unit_fullname" , property ="unitFullname" ),
             @Result(column = "count_child_count" , property ="countChildCount" ),
             @Result(column = "unit_deptcode" , property ="unitDeptcode" )
     })
@@ -27,6 +28,7 @@ public interface   OrgUnitTotalMapper{
             "            b on b.unit_parentcode = a.unit_deptcode where a.unit_propertylevel = #{integer} and  a.unit_parentcode = #{unitparentcode}")
     @Results({
             @Result(id =true , column = "unit_name" , property ="unitName" ),
+            @Result(column = "unit_fullname" , property ="unitFullname" ),
             @Result(column = "count_child_count" , property ="countChildCount" ),
             @Result(column = "unit_deptcode" , property ="unitDeptcode" )
     })

@@ -10,10 +10,16 @@ new Vue({
     	 moved:0,
     	 unitList: null,
          checkedOrgNum:null,
+         checkedOrgFourNum:null,
          orgUnitList:null,
+         orgUnitFiveList:null,
+         checkedOrgFiveNum:null,
+         orgUnitSixList:null,
+         checkedOrgSixNum:null,
          orgUnitThreeList:null,
          orgUserList:null,
-         onclickUnitName:null
+         onclickUnitName:null,
+         checkedOrgFourNum:null
 
      },
      created() {
@@ -43,6 +49,7 @@ new Vue({
              // $('.nav_con').not($(this).next()).hide();
 
          },
+
 
 
 
@@ -164,27 +171,96 @@ initCass() {
              });
          },
          tranformSanjiao(e,list,num){
+             for(var  i = 0;i<this.orgUnitList.length;i++){
+                 if(this.orgUnitList[i].unitDeptcode != num)
+                 this.orgUnitList[i].isXia = false;
+                 else{
+                     this.orgUnitList[i].isXia = (this.orgUnitList[i].isXia==null||!this.orgUnitList[i].isXia)?true:false;
+                 }
+             }
              console.log(e,list);
              if (list.isXia === undefined || list.isXia === null || !list.isXia){
-                 list.isXia = true;
-                 e.target.setAttribute("class","");
+                 e.target.setAttribute("class","icon_transform");
+                 this.checkedOrgNum = null;
+
              }
 
              else{
-                 list.isXia = !list.isXia;
-                 e.target.setAttribute("class","icon_transform");
+                 e.target.setAttribute("class","");
+                axios.get('system/unit/findbyunitparentcode3?unitparentcode='+ num + "&integer=3")
+                    .then((response) => {
+                    this.checkedOrgNum = num;
+                this.orgUnitThreeList = response.data;
+             })
+
              }
 
             // 查询三级公司
-             axios.get('system/unit/findbyunitparentcode3?unitparentcode='+ num + "&integer=3")
-                 .then((response) => {
-                 this.checkedOrgNum = num;
-                 this.orgUnitThreeList = response.data;
-           })
+
             // e.target.transform = 'rotate(180deg)';
-        }
+             //$('.arrow2').slideToggle();
+         },
          // 最大括弧
-     }
+         tranformFourOrg(e,list,num){
+             for(var  i = 0;i<this.orgUnitThreeList.length;i++){
+                 if(this.orgUnitThreeList[i].unitDeptcode != num)
+                     this.orgUnitThreeList[i].isXia = false;
+                 else{
+                     this.orgUnitThreeList[i].isXia = (this.orgUnitThreeList[i].isXia==null||!this.orgUnitThreeList[i].isXia)?true:false;
+                 }
+             }
+             console.log(e,list);
+             if (list.isXia === undefined || list.isXia === null || !list.isXia){
+                 e.target.setAttribute("class","icon_transform");
+                 this.checkedOrgFourNum = null;
+
+             }
+
+             else{
+                e.target.setAttribute("class","");
+                axios.get('system/unit/findbyunitparentcode3?unitparentcode='+ num + "&integer=4")
+                    .then((response) => {
+                    this.checkedOrgFourNum = num;
+                this.orgUnitFourList = response.data;
+             })
+
+             }
+
+             // 查询三级公司
+
+             // e.target.transform = 'rotate(180deg)';
+             //$('.arrow2').slideToggle();
+         },
+         tranformFiveOrg(e,list,num){
+             for(var  i = 0;i<this.orgUnitFourList.length;i++){
+                 if(this.orgUnitFourList[i].unitDeptcode != num)
+                     this.orgUnitFourList[i].isXia = false;
+                 else{
+                     this.orgUnitFourList[i].isXia = (this.orgUnitFourList[i].isXia==null||!this.orgUnitFourList[i].isXia)?true:false;
+                 }
+             }
+             console.log(e,list);
+             if (list.isXia === undefined || list.isXia === null || !list.isXia){
+                 e.target.setAttribute("class","icon_transform");
+                 this.checkedOrgFiveNum = null;
+             }
+
+             else{
+                 e.target.setAttribute("class","");
+                 axios.get('system/unit/findbyunitparentcode3?unitparentcode='+ num + "&integer=5")
+                     .then((response) => {
+                     this.checkedOrgFiveNum = num;
+                 this.orgUnitFiveList = response.data;
+
+             })
+             }
+
+             // 查询三级公司
+
+             // e.target.transform = 'rotate(180deg)';
+             //$('.arrow2').slideToggle();
+         }
+}
  })
 // 时间
 function on() {

@@ -31,9 +31,6 @@ public class UserController extends AbstractBaseController<OrgUser> {
         OrgUser orgUser = new OrgUser();
         System.out.println(userdeptcode);
         orgUser.setUserDeptcode(userdeptcode);
-
-
-
         return entityResult(userService.findAllUser(orgUser));
     }
 
