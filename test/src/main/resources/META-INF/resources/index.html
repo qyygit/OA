@@ -308,40 +308,41 @@
                         </table>
                     </div>
                     <!-- 用户信息 -->
-                    <div class="system_con"  id="userinfo" data-initclick="initUserClick">
+                    <!--<div class="system_con"  id="userinfo"  -initclick="initUserClick">-->
+                    <div class="system_con"  id="userinfo">
                         <div class="user_btn">
                             <button class="sureBtn">修改</button>
                             <button class="sureBtn">维护角色</button>
                         </div>
-                        <div class="user_con" >
+                        <div class="user_con" :key="Math.random()">
                             <div class=" user_left"  :key="Math.random()">
 
-                                <div class="arrow arrow1" @click='arrow'><img src="img/arrow.png" alt="">神华集团</div>
+                                <div class="arrow arrow1" @click='arrow'><img src="img/arrow.png" :key="Math.random()" alt="" class="icon_transform" @click="tranformSanjiaoFirst()">神华集团</div>
                                     <div class="arrow2" :key="Math.random()">
                                         <ul v-for="unlist in orgUnitList"  id="orgQueryList" :key="Math.random()">
                                             <!--   二级公司展示    -->
-                                            <li v-if="unlist.countChildCount > 0" class="sel_title arrow " :title="unlist.unitFullname">
+                                            <li v-if="unlist.countChildCount > 0" class="sel_title arrow " :title="unlist.unitFullname" :key="Math.random()">
                                                 <img :class="{'icon_transform': unlist.isXia === undefined || unlist.isXia===null || unlist.isXia === false}"
                                                      src="img/arrow.png" alt="" @click="tranformSanjiao($event,unlist,unlist.unitDeptcode)" :key="Math.random()">
                                                 <span  @click="findOrgUserBydeptcode(unlist.unitDeptcode,unlist.unitName)">{{unlist.unitName }}</span>
                                                 <div class="arrow3" :key="Math.random()">
                                                     <!--  三级公司展示  -->
                                                     <ul class="menu2"  v-for="unlistThree in orgUnitThreeList"  id="orgQueryList" :key="Math.random()" v-if="unlist.unitDeptcode == checkedOrgNum">
-                                                        <li v-if="unlistThree.countChildCount > 0" class="sel_title arrow" :title="unlistThree.unitFullname">
+                                                        <li v-if="unlistThree.countChildCount > 0" class="sel_title arrow" :title="unlistThree.unitFullname" :key="Math.random()">
                                                             <img :class="{'icon_transform': unlistThree.isXia === undefined || unlistThree.isXia===null || unlistThree.isXia === false}"
                                                                  src="img/arrow.png" alt="" @click="tranformFourOrg($event,unlistThree,unlistThree.unitDeptcode)" :key="Math.random()">
                                                             <span  @click="findOrgUserBydeptcode(unlistThree.unitDeptcode,unlistThree.unitName)">{{unlistThree.unitName }}</span>
                                                             <div class="arrow4" :key="Math.random()">
                                                                 <!--  四级公司展示  -->
                                                                 <ul class="menu2"  v-for="unlistFour in orgUnitFourList" :key="Math.random()" v-if="unlistThree.unitDeptcode == checkedOrgFourNum">
-                                                                    <li v-if="unlistFour.countChildCount > 0" class="sel_title arrow" :title="unlistFour.unitFullname" >
+                                                                    <li v-if="unlistFour.countChildCount > 0" class="sel_title arrow" :title="unlistFour.unitFullname" :key="Math.random()" >
                                                                         <img :class="{'icon_transform': unlistFour.isXia === undefined || unlistFour.isXia===null || unlistFour.isXia === false}"
                                                                              src="img/arrow.png" alt="" @click="tranformFiveOrg($event,unlistFour,unlistFour.unitDeptcode)" :key="Math.random()">
                                                                         <span  @click="findOrgUserBydeptcode(unlistFour.unitDeptcode,unlistFour.unitName,$event)">{{unlistFour.unitName }}</span>
                                                                         <!--  五级公司展示  -->
                                                                         <div class="arrow5" :key="Math.random()">
                                                                             <ul class="menu2"  v-for="unlistFive in orgUnitFiveList" :key="Math.random()" v-if="unlistFour.unitDeptcode == checkedOrgFiveNum">
-                                                                                <li v-if="unlistFive.countChildCount > 0" class="sel_title arrow" :title="unlistFive.unitFullname" >
+                                                                                <li v-if="unlistFive.countChildCount > 0" class="sel_title arrow" :title="unlistFive.unitFullname" :key="Math.random()">
                                                                                     <img :class="{'icon_transform': unlistFive.isXia === undefined || unlistFive.isXia===null || unlistFive.isXia === false}"
                                                                                          src="img/arrow.png" alt="" @click="tranformFiveOrg($event,unlistFive,unlistFive.unitDeptcode)" :key="Math.random()">
                                                                                     <span  @click="findOrgUserBydeptcode(unlistFive.unitDeptcode,unlistFive.unitName,$event)">{{unlistFive.unitName }}</span>
@@ -414,6 +415,7 @@
                                     <table class="user_table">
                                         <thead>
                                             <tr>
+                                                <th>选择</th>
                                                 <th>用户全称</th>
                                                 <th>用户ID</th>
                                                 <th>职务</th>
@@ -422,6 +424,7 @@
                                         </thead>
                                         <tbody>
                                             <tr v-for="UserList in orgUserList" key="UserList.userId">
+                                                <td><input type="radio" /></td>
                                                 <td>{{UserList.userName}}</td>
                                                 <td>{{UserList.userId}}</td>
                                                 <td>{{UserList.userJobtitle}}</td>

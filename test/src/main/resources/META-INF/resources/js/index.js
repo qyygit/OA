@@ -149,12 +149,12 @@ initCass() {
 
          // 查询全部二级公司
          initUserClick() {
-             alert("user 初始化")
+             /*alert("user 初始化")
              axios.get('system/unit/findbyunitpropertylevel2?unitpropertylevel=2')
                  .then((response) => {
                  this.orgUnitList = response.data;
-         })
-             ;
+         })*/
+
          },
 
          // 查询分公司下的员工信息
@@ -170,6 +170,17 @@ initCass() {
                  console.log(error);
              });
          },
+
+         tranformSanjiaoFirst(){
+                if(this.orgUnitList == null) {
+                    axios.get('system/unit/findbyunitpropertylevel2?unitpropertylevel=2')
+                        .then((response) => {
+                        this.orgUnitList = response.data;
+                })
+                }
+
+             },
+
          tranformSanjiao(e,list,num){
              for(var  i = 0;i<this.orgUnitList.length;i++){
                  if(this.orgUnitList[i].unitDeptcode != num)
@@ -241,7 +252,7 @@ initCass() {
              }
              console.log(e,list);
              if (list.isXia === undefined || list.isXia === null || !list.isXia){
-                 e.target.setAttribute("class","icon_transform");
+                 e.target.setAttribute(" ","icon_transform");
                  this.checkedOrgFiveNum = null;
              }
 
